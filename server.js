@@ -3,8 +3,31 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/emberZines');
+//connect to local db
+// mongoose.connect('mongodb://localhost/emberZines');
 
+//connect to hosted db
+const MongoClient = require('mongodb').MongoClient;
+
+//require our env and use our env file
+var dotenv = require('dotenv');
+dotenv.config();
+
+//url with env secrets
+var url = process.env.MONGO_URL;
+var db;
+
+//connect Mongodb with server at startup
+MongoClient.connect(url, (err, database) => {
+  if (err) return console.log(err);
+   db = database;
+   app.listen(4500, () => {
+     console.log('listening on port 4500');
+   });
+});
+
+//connect to mongoose
+mongoose.connect(url);
 
 // set up headers for our server
 app.use(function(req, res, next) {
@@ -22,14 +45,13 @@ var zineSchema = new mongoose.Schema({
 
 var ZineModel = mongoose.model('zine',zineSchema);
 
-
+// app.listen('4500');
 //routes
 
 app.get('/api/',function(req,res) {
 	res.send('Working');
 });
 
-app.listen('4500');
 
 app.get('/api/zines', function(req,res) {
 	ZineModel.find({},function(err,docs) {
