@@ -1,8 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
-
+var bodyParser = require('body-parser');
 var app = express();
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 //connect to local db
 mongoose.connect('mongodb://localhost/emberZines');
 app.listen('4500');
@@ -34,16 +35,16 @@ app.listen('4500');
 
 // set up headers for our server
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-  	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  	res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-    next();
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  next();
 });
 
 
 var zineSchema = new mongoose.Schema({
-	title: 'string',
-	creator: 'string'
+  title: 'string',
+  creator: 'string'
 });
 
 var ZineModel = mongoose.model('zine',zineSchema);
@@ -57,28 +58,42 @@ var router = express.Router();              // get an instance of the express Ro
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
+  // do logging
+  console.log('Something is happening.');
+  next(); // make sure we go to the next routes and don't stop here
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
+  res.json({ message: 'hooray! welcome to our api!' });
 });
 
-// more routes for our API will happen here
+// route for all zines in collection
 router.route('/zines')
   .get(function(req,res){
-	   ZineModel.find({},function(err,docs) {
-		     if(err) {
-			        res.send({error:err});
-		        }
-		      else {
-			        res.send({zine:docs});
-		          }
-	});
-});
+    ZineModel.find({},function(err,docs) {
+      if(err) {
+        res.send({error:err});
+      }
+      else {
+        console.log('Successful send of all zines');
+        res.send({zine:docs});
+      }
+    });
+  });
+
+// on routes that end in /zines/:zine_id
+// ----------------------------------------------------
+router.route('/zines/:zine_id')
+
+  .get(function(req, res) {
+    ZineModel.findById(req.params.zine_id, function(err, zine) {
+      if (err)
+      res.send(err);
+      res.json(zine);
+    });
+  });
+
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
@@ -86,7 +101,7 @@ app.use('/api', router);
 
 
 
-//////api routes :working as is
+//////old api route examples
 // app.get('/api/',function(req,res) {
 // 	res.send('Working');
 // });
