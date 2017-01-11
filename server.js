@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/emberZines');
 app.listen('4500');
 
 
-// //connect to hosted db
+// // //connect to hosted db
 // const MongoClient = require('mongodb').MongoClient;
 //
 // //require our env and use our env file
