@@ -4,32 +4,33 @@ var mongoose = require('mongoose');
 var app = express();
 
 //connect to local db
-// mongoose.connect('mongodb://localhost/emberZines');
+mongoose.connect('mongodb://localhost/emberZines');
+app.listen('4500');
 
-//connect to hosted db
-const MongoClient = require('mongodb').MongoClient;
 
-//require our env and use our env file
-var dotenv = require('dotenv');
-dotenv.config();
+// //connect to hosted db
+// const MongoClient = require('mongodb').MongoClient;
+//
+// //require our env and use our env file
+// var dotenv = require('dotenv');
+// dotenv.config();
+//
+// //url with env secrets
+// var url = process.env.MONGO_URL;
+// var db;
+//
+// //connect Mongodb with server at startup
+// MongoClient.connect(url, (err, database) => {
+//   if (err) return console.log(err);
+//    db = database;
+//    app.listen(4500, () => {
+//      console.log('listening on port 4500');
+//    });
+// });
+//
+// //connect to mongoose w/ hosted db
+// mongoose.connect(url);
 
-//url with env secrets
-var url = process.env.MONGO_URL;
-var db;
-
-//connect Mongodb with server at startup
-MongoClient.connect(url, (err, database) => {
-  if (err) return console.log(err);
-   db = database;
-   app.listen(4500, () => {
-     console.log('listening on port 4500');
-   });
-});
-
-//connect to mongoose w/ hosted db
-mongoose.connect(url);
-
-// app.listen('4500');
 
 // set up headers for our server
 app.use(function(req, res, next) {
