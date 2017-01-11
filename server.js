@@ -49,20 +49,72 @@ var zineSchema = new mongoose.Schema({
 var ZineModel = mongoose.model('zine',zineSchema);
 
 
-//////api routes
+/////api routes using router
 
-app.get('/api/',function(req,res) {
-	res.send('Working');
+// ROUTES FOR OUR API
+// =============================================================================
+var router = express.Router();              // get an instance of the express Router
+
+// middleware to use for all requests
+router.use(function(req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
 });
 
+// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+router.get('/', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });
+});
 
-app.get('/api/zines', function(req,res) {
-	ZineModel.find({},function(err,docs) {
-		if(err) {
-			res.send({error:err});
-		}
-		else {
-			res.send({zine:docs});
-		}
+// more routes for our API will happen here
+router.route('/zines')
+  .get(function(req,res){
+	   ZineModel.find({},function(err,docs) {
+		     if(err) {
+			        res.send({error:err});
+		        }
+		      else {
+			        res.send({zine:docs});
+		          }
 	});
 });
+
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+app.use('/api', router);
+
+
+
+//////api routes :working as is
+// app.get('/api/',function(req,res) {
+// 	res.send('Working');
+// });
+//
+//
+// app.get('/api/zines', function(req,res) {
+// 	ZineModel.find({},function(err,docs) {
+// 		if(err) {
+// 			res.send({error:err});
+// 		}
+// 		else {
+// 			res.send({zine:docs});
+// 		}
+// 	});
+// });
+
+// app.get('/api/zines/:id', function(req, res){
+//   Zine
+// });
+
+// this.get('/api/zines', function(db, request) {
+//   if(request.queryParams.title !== undefined) {
+//     let filteredZines = zines.filter(function(i) {
+//       return i.attributes.zine.toLowerCase().indexOf(request.queryParams.zine.toLowerCase()) !== -1;
+//     });
+//     return { data: filteredZines };
+//   } else {
+//     return { data: zines };
+//   }
+// });
+
