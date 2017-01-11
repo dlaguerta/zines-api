@@ -26,8 +26,10 @@ MongoClient.connect(url, (err, database) => {
    });
 });
 
-//connect to mongoose
+//connect to mongoose w/ hosted db
 mongoose.connect(url);
+
+// app.listen('4500');
 
 // set up headers for our server
 app.use(function(req, res, next) {
@@ -45,8 +47,8 @@ var zineSchema = new mongoose.Schema({
 
 var ZineModel = mongoose.model('zine',zineSchema);
 
-// app.listen('4500');
-//routes
+
+//////api routes
 
 app.get('/api/',function(req,res) {
 	res.send('Working');
