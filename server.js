@@ -80,8 +80,7 @@ router.route('/zines')
         res.send({error:err});
       }
       else {
-        console.log('Successful send of all zines');
-        console.log(docs);
+        console.log('Successful send of zines');
         res.send({zine:docs});
       }
     });
@@ -104,17 +103,6 @@ router.route('/zines/:zine_id')
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
-
-
-
-
-
-
-
-
-
-
-
 
 //////old api route examples
 // app.get('/api/',function(req,res) {
