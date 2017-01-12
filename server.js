@@ -71,16 +71,22 @@ router.get('/', function(req, res) {
 // route for all zines in collection
 router.route('/zines')
   .get(function(req,res){
-    ZineModel.find({},function(err,docs) {
+    // res.json({ querystring_title: req.query.title });
+    if (req.query.title === undefined) {
+      req.query.title = '';
+    }
+    ZineModel.find({ "title": { "$regex": req.query.title, "$options": "i" }},function(err,docs) {
       if(err) {
         res.send({error:err});
       }
       else {
         console.log('Successful send of all zines');
+        console.log(docs);
         res.send({zine:docs});
       }
     });
   });
+
 
 // on routes that end in /zines/:zine_id
 // ----------------------------------------------------
@@ -98,6 +104,15 @@ router.route('/zines/:zine_id')
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -120,16 +135,5 @@ app.use('/api', router);
 
 // app.get('/api/zines/:id', function(req, res){
 //   Zine
-// });
-
-// this.get('/api/zines', function(db, request) {
-//   if(request.queryParams.title !== undefined) {
-//     let filteredZines = zines.filter(function(i) {
-//       return i.attributes.zine.toLowerCase().indexOf(request.queryParams.zine.toLowerCase()) !== -1;
-//     });
-//     return { data: filteredZines };
-//   } else {
-//     return { data: zines };
-//   }
 // });
 
