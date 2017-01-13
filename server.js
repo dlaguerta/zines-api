@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var ZineModel = require('./models/zine');
+var LibraryModel = require('./models/library');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -94,7 +95,7 @@ router.route('/zines')
 router.route('/zines/:zine_id')
 
   .get(function(req, res) {
-    ZineModel.findById(req.params.zine_id, function(err, zine) {
+    LibraryModel.findById(req.params.zine_id, function(err, zine) {
       if (err)
       res.send(err);
       res.json(zine);
@@ -102,6 +103,24 @@ router.route('/zines/:zine_id')
     });
   });
 
+
+  // on routes that end in /libraries
+  // ----------------------------------------------------
+router.route('/libraries')
+.get(function(req, res) {
+  if (req.query.name === undefined) {
+    req.query.name = '';
+  }
+  LibraryModel.find({ "name": { "$regex": req.query.name, "$options": "i" }},function(err,docs) {
+    if(err) {
+      res.send({error:err});
+    }
+    else {
+      console.log('Successful send of libraries');
+      res.send({library:docs});
+    }
+  });
+});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
