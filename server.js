@@ -95,7 +95,7 @@ router.route('/zines')
 router.route('/zines/:zine_id')
 
   .get(function(req, res) {
-    LibraryModel.findById(req.params.zine_id, function(err, zine) {
+    ZineModel.findById(req.params.zine_id, function(err, zine) {
       if (err)
       res.send(err);
       res.json(zine);
@@ -121,6 +121,18 @@ router.route('/libraries')
     }
   });
 });
+
+//get a library by id
+router.route('/libraries/:library_id')
+
+  .get(function(req, res) {
+    LibraryModel.findById(req.params.library_id, function(err, library) {
+      if (err)
+      res.send(err);
+      res.json(library);
+      console.log(library);
+    });
+  });
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
