@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var ZineModel = require('./models/zine');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -42,12 +43,13 @@ app.use(function(req, res, next) {
 });
 
 
-var zineSchema = new mongoose.Schema({
-  title: 'string',
-  creator: 'string'
-});
+// var zineSchema = new mongoose.Schema({
+//   title: 'string',
+//   creator: 'string'
+//
+// });
 
-var ZineModel = mongoose.model('zine',zineSchema);
+// var ZineModel = mongoose.model('zine',zineSchema);
 
 
 /////api routes using router
@@ -96,6 +98,7 @@ router.route('/zines/:zine_id')
       if (err)
       res.send(err);
       res.json(zine);
+      console.log(zine);
     });
   });
 
