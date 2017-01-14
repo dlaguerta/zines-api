@@ -72,22 +72,38 @@ router.get('/', function(req, res) {
 });
 
 // route for all zines in collection
-router.route('/zines')
-  .get(function(req,res){
-    // res.json({ querystring_title: req.query.title });
-    if (req.query.title === undefined) {
-      req.query.title = '';
-    }
-    ZineModel.find({ "title": { "$regex": req.query.title, "$options": "i" }},function(err,docs) {
-      if(err) {
-        res.send({error:err});
+// router.route('/zines')
+  // .get(function(req,res){
+  //   // res.json({ querystring_title: req.query.title });
+  //   if (req.query.title === undefined) {
+  //     req.query.title = '';
+  //   }
+  //   ZineModel.find({ "title": { "$regex": req.query.title, "$options": "i" }},function(err,docs) {
+  //     if(err) {
+  //       res.send({error:err});
+  //     }
+  //     else {
+  //       console.log('Successful send of zines');
+  //       res.send({zine:docs});
+  //     }
+  //   });
+  // });
+  router.route('/zines')
+    .get(function(req,res){
+      // res.json({ querystring_title: req.query.title });
+      if (req.query.tags === undefined) {
+        req.query.tags = '';
       }
-      else {
-        console.log('Successful send of zines');
-        res.send({zine:docs});
-      }
+      ZineModel.find({ "tags": { "$regex": req.query.tags, "$options": "i" }},function(err,docs) {
+        if(err) {
+          res.send({error:err});
+        }
+        else {
+          console.log('Successful send of zines');
+          res.send({zine:docs});
+        }
+      });
     });
-  });
 
 
 // on routes that end in /zines/:zine_id
