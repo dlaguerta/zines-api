@@ -13,7 +13,7 @@ var zineSchema = new mongoose.Schema({
   contributor: 'string',
   subject_genre: 'string',
   press_house_publisher: 'string',
-  library_id: [{ type: Schema.Types.ObjectId, ref: 'library' }]
+  library_ids: [{ type: Schema.Types.ObjectId, ref: 'library' }]
 
 });
 
