@@ -160,7 +160,6 @@ router.route('/libraries/:library_id')
     LibraryModel.findById(req.params.library_id, function(err, library) {
       if (err)
       res.send(err);
-      console.log(library._zine);
       res.json(library);
     });
   })
@@ -169,12 +168,16 @@ router.route('/libraries/:library_id')
     LibraryModel.findById(req.params.library_id, function(err, library) {
       if (err)
         res.send(err);
-      // if no err
-      library.name = req.body.name;
+      console.log("the info:" + library);
+
+      for (var prop in req.body) {
+      library[prop] = req.body[prop];
+      }
+
       library.save(function(err) {
         if (err)
           res.send(err);
-        res.json({ message: 'Library updated!' });
+        res.json(library);
       });
     });
   });
