@@ -124,12 +124,15 @@ router.route('/zines/:zine_id')
         res.send(err);
       // if no err
       console.log(zine);
-      zine.title = req.body.title;
+
+      for (var prop in req.body) {
+      zine[prop] = req.body[prop];
+      }
       //save the zine
       zine.save(function(err) {
         if (err)
           res.send(err);
-        res.json({ message: 'Zine updated!' });
+        res.json(zine);
       });
     });
   });
