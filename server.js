@@ -115,7 +115,6 @@ router.route('/zines/:zine_id')
       if (err)
       res.send(err);
       res.json(zine);
-      console.log(zine);
     });
   })
 
@@ -161,8 +160,22 @@ router.route('/libraries/:library_id')
     LibraryModel.findById(req.params.library_id, function(err, library) {
       if (err)
       res.send(err);
+      console.log(library._zine);
       res.json(library);
-      console.log(library);
+    });
+  })
+
+  .put(function(req, res) {
+    LibraryModel.findById(req.params.library_id, function(err, library) {
+      if (err)
+        res.send(err);
+      // if no err
+      library.name = req.body.name;
+      library.save(function(err) {
+        if (err)
+          res.send(err);
+        res.json({ message: 'Library updated!' });
+      });
     });
   });
 

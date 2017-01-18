@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
-
+var library = require('./library');
 var zineSchema = new mongoose.Schema({
   title: 'string',
   creator: 'string',
