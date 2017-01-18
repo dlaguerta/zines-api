@@ -62,7 +62,7 @@ var router = express.Router();              // get an instance of the express Ro
 // middleware to use for all requests
 router.use(function(req, res, next) {
   // do logging
-  console.log('Something is happening.');
+  console.log('router in use');
   next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -116,6 +116,22 @@ router.route('/zines/:zine_id')
       res.send(err);
       res.json(zine);
       console.log(zine);
+    });
+  })
+
+  .put(function(req, res) {
+    ZineModel.findById(req.params.zine_id, function(err, zine) {
+      if (err)
+        res.send(err);
+      // if no err
+      console.log(zine);
+      zine.title = req.body.title;
+      //save the zine
+      zine.save(function(err) {
+        if (err)
+          res.send(err);
+        res.json({ message: 'Zine updated!' });
+      });
     });
   });
 
