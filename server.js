@@ -163,6 +163,7 @@ router.route('/libraries/:library_id')
       library.save(function(err) {
         if (err)
           res.send(err);
+        console.log('*******saved the library********');
         res.json(library);
       });
     });
