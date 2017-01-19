@@ -62,7 +62,7 @@ var router = express.Router();              // get an instance of the express Ro
 // middleware to use for all requests
 router.use(function(req, res, next) {
   // do logging
-  console.log('router in use');
+  // console.log('router in use');
   next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -71,23 +71,6 @@ router.get('/', function(req, res) {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
-// route for all zines in collection
-// router.route('/zines')
-  // .get(function(req,res){
-  //   // res.json({ querystring_title: req.query.title });
-  //   if (req.query.title === undefined) {
-  //     req.query.title = '';
-  //   }
-  //   ZineModel.find({ "title": { "$regex": req.query.title, "$options": "i" }},function(err,docs) {
-  //     if(err) {
-  //       res.send({error:err});
-  //     }
-  //     else {
-  //       console.log('Successful send of zines');
-  //       res.send({zine:docs});
-  //     }
-  //   });
-  // });
   router.route('/zines')
     .get(function(req,res){
       // res.json({ querystring_title: req.query.title });
@@ -150,7 +133,7 @@ router.route('/libraries')
       res.send({error:err});
     }
     else {
-      console.log('Successful send of libraries');
+      console.log('Successful send of libraries from get route');
       res.send({library:docs});
     }
   });
@@ -171,7 +154,7 @@ router.route('/libraries/:library_id')
     LibraryModel.findById(req.params.library_id, function(err, library) {
       if (err)
         res.send(err);
-      console.log("the info:" + library);
+      console.log("the library info:" + library);
 
       for (var prop in req.body) {
       library[prop] = req.body[prop];
