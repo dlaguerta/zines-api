@@ -166,7 +166,7 @@ router.route('/libraries/:library_id')
       library.save(function(err) {
         if (err)
           res.send(err);
-        res.json({model:library});
+        res.json(library);
         console.log('*******saved the library********');
       });
     });
