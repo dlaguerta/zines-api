@@ -143,10 +143,10 @@ router.route('/libraries')
 router.route('/libraries/:library_id')
 
   .get(function(req, res) {
-    LibraryModel.findById(req.params.library_id, function(err, library) {
+    LibraryModel.findById(req.params.library_id, function(err, docs) {
       if (err)
       res.send(err);
-      res.json(library);
+      res.json({library:docs});
     });
   })
 
@@ -166,7 +166,7 @@ router.route('/libraries/:library_id')
       library.save(function(err) {
         if (err)
           res.send(err);
-        res.json(library);
+        res.json({model:library});
         console.log('*******saved the library********');
       });
     });
