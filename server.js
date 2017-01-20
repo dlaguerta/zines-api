@@ -154,17 +154,20 @@ router.route('/libraries/:library_id')
     LibraryModel.findById(req.params.library_id, function(err, library) {
       if (err)
         res.send(err);
-      console.log("the library info:" + library);
-
-      for (var prop in req.body) {
-      library[prop] = req.body[prop];
+      console.log("the library info you're changing:" + library);
+      console.log(Object.keys(req.body.library));
+      console.log(req.body.library.name);
+      var keys = Object.keys(req.body.library);
+      for (var i=0; i < keys.length; i++) {
+        var key = keys[i];
+        library[key] = req.body.library[key];
       }
-
+      console.log(library);
       library.save(function(err) {
         if (err)
           res.send(err);
-        console.log('*******saved the library********');
         res.json(library);
+        console.log('*******saved the library********');
       });
     });
   });
