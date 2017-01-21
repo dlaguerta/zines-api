@@ -74,6 +74,7 @@ router.get('/', function(req, res) {
   router.route('/zines')
     .get(function(req,res){
       // res.json({ querystring_title: req.query.title });
+      console.log(req.query.limit);
       if (req.query.tags === undefined) {
         req.query.tags = '';
       }
@@ -85,7 +86,7 @@ router.get('/', function(req, res) {
           console.log('Successful send of zines');
           res.send({meta: {total:docs.length}, zine:docs});
         }
-      });
+      }).limit(10);
     });
 
 
