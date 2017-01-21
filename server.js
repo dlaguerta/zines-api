@@ -7,32 +7,32 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //connect to local db
-mongoose.connect('mongodb://localhost/emberZines');
-app.listen('4500');
+// mongoose.connect('mongodb://localhost/emberZines');
+// app.listen('4500');
 
 
-// // //connect to hosted db
-// const MongoClient = require('mongodb').MongoClient;
-//
-// //require our env and use our env file
-// var dotenv = require('dotenv');
-// dotenv.config();
-//
-// //url with env secrets
-// var url = process.env.MONGO_URL;
-// var db;
-//
-// //connect Mongodb with server at startup
-// MongoClient.connect(url, (err, database) => {
-//   if (err) return console.log(err);
-//    db = database;
-//    app.listen(4500, () => {
-//      console.log('listening on port 4500');
-//    });
-// });
-//
-// //connect to mongoose w/ hosted db
-// mongoose.connect(url);
+// //connect to hosted db
+const MongoClient = require('mongodb').MongoClient;
+
+//require our env and use our env file
+var dotenv = require('dotenv');
+dotenv.config();
+
+//url with env secrets
+var url = process.env.MONGO_URL;
+var db;
+
+//connect Mongodb with server at startup
+MongoClient.connect(url, (err, database) => {
+  if (err) return console.log(err);
+   db = database;
+   app.listen(4500, () => {
+     console.log('listening on port 4500');
+   });
+});
+
+//connect to mongoose w/ hosted db
+mongoose.connect(url);
 
 
 // set up headers for our server
@@ -83,7 +83,7 @@ router.get('/', function(req, res) {
         }
         else {
           console.log('Successful send of zines');
-          res.send({zine:docs});
+          res.send({total: docs.length, zine:docs});
         }
       });
     });
