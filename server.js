@@ -83,7 +83,7 @@ router.get('/', function(req, res) {
         }
         else {
           console.log('Successful send of zines');
-          res.send({total: docs.length, zine:docs});
+          res.send({meta: {total:docs.length}, zine:docs});
         }
       });
     });
