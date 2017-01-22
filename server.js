@@ -74,19 +74,29 @@ router.get('/', function(req, res) {
   router.route('/zines')
     .get(function(req,res){
       // res.json({ querystring_title: req.query.title });
-      console.log(req.query.limit);
+    //   let queryOptions = {
+    //     pagelimit: req.query.limit || 10
+    // };
       if (req.query.tags === undefined) {
         req.query.tags = '';
+      }
+
+      if (req.query.limit) {
+        console.log("limit is:  " + req.query.limit);
+        var limit = req.query.limit;
+        // queryOptions.offset = (options.page - 1) * queryOptions.limit
       }
       ZineModel.find({ "tags": { "$regex": req.query.tags, "$options": "i" }},function(err,docs) {
         if(err) {
           res.send({error:err});
         }
         else {
-          console.log('Successful send of zines');
+          console.log('Successful send of zines from get route');
           res.send({meta: {total:docs.length}, zine:docs});
         }
-      }).limit(10);
+      // });
+    }).limit(40);
+      // limits the number of results sent back immediately
     });
 
 
@@ -98,7 +108,7 @@ router.route('/zines/:zine_id')
     ZineModel.findById(req.params.zine_id, function(err, zine) {
       if (err)
       res.send(err);
-      res.json(zine);
+      res.json({zine: zine});
     });
   })
 
