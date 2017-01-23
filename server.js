@@ -19,11 +19,11 @@ var dotenv = require('dotenv');
 dotenv.config();
 
 //url with env secrets
-var url = process.env.MONGO_URL;
+// var url = process.env.MONGO_URL;
 var db;
 
 //connect Mongodb with server at startup
-MongoClient.connect(url, (err, database) => {
+MongoClient.connect(process.env.MONGO_URL, (err, database) => {
   if (err) return console.log(err);
    db = database;
    app.listen(4500, () => {
