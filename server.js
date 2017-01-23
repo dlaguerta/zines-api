@@ -32,7 +32,7 @@ MongoClient.connect(url, (err, database) => {
 });
 
 //connect to mongoose w/ hosted db
-mongoose.connect(url);
+mongoose.connect(process.env.MONGO_URL);
 
 
 // set up headers for our server
