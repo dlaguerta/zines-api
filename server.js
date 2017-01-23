@@ -44,15 +44,6 @@ app.use(function(req, res, next) {
 });
 
 
-// var zineSchema = new mongoose.Schema({
-//   title: 'string',
-//   creator: 'string'
-//
-// });
-
-// var ZineModel = mongoose.model('zine',zineSchema);
-
-
 /////api routes using router
 
 // ROUTES FOR OUR API
@@ -105,11 +96,11 @@ router.get('/', function(req, res) {
 router.route('/zines/:zine_id')
 
   .get(function(req, res) {
-    ZineModel.findById(req.params.zine_id, function(err, zine) {
+    ZineModel.findById(req.params.zine_id, function(err, docs) {
       if (err)
       res.send(err);
       console.log("Found zine");
-      res.json({zine: zine});
+      res.json({zine: docs});
     });
   })
 
@@ -118,16 +109,20 @@ router.route('/zines/:zine_id')
       if (err)
         res.send(err);
       // if no err
-      console.log(zine);
+      console.log("The zine you've found"+ zine);
+      // console.log(Object.keys(req.body.zine));
 
-      for (var prop in req.body) {
-      zine[prop] = req.body[prop];
+      var keys = Object.keys(req.body.zine);
+      for (var i=0; i < keys.length; i++) {
+        var key = keys[i];
+        zine[key] = req.body.zine[key];
       }
       //save the zine
       zine.save(function(err) {
         if (err)
-          res.send(err);
+          res.send("error message" + err);
         res.json(zine);
+        console.log("***saved the zine from form***");
       });
     });
   });
