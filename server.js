@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var ZineModel = require('./models/zine');
 var LibraryModel = require('./models/library');
 var app = express();
+var port = process.env.PORT || 8081;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //connect to local db
@@ -26,8 +28,8 @@ var db;
 MongoClient.connect(url, (err, database) => {
   if (err) return console.log(err);
    db = database;
-   app.listen(4500, () => {
-     console.log('listening on port 4500');
+   app.listen(port, () => {
+     console.log('listening on port 8081');
    });
 });
 
