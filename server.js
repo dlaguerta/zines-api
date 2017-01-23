@@ -94,15 +94,29 @@ router.get('/', function(req, res) {
 // on routes that end in /zines/:zine_id
 // ----------------------------------------------------
 router.route('/zines/:zine_id')
-
+// Model.findOne().populate('author').exec(function (err, doc) {
+//   console.log(doc.author.name)         // Dr.Seuss
+//   console.log(doc.populated('author')) // '5144cf8050f071d979c118a7'
+// })
   .get(function(req, res) {
-    ZineModel.findById(req.params.zine_id, function(err, docs) {
+    ZineModel.findById(req.params.zine_id).populate('libraries').exec(function(err, docs) {
       if (err)
       res.send(err);
       console.log("Found zine");
-      res.json({zine: docs});
+      console.log(docs.libraries.name);
+      res.json({zine: docs, libraries: {library:docs.libraries}});
     });
   })
+
+  //correct version
+  // .get(function(req, res) {
+  //   ZineModel.findById(req.params.zine_id, function(err, docs) {
+  //     if (err)
+  //     res.send(err);
+  //     console.log("Found zine");
+  //     res.json({zine: docs});
+  //   });
+  // })
 
   .put(function(req, res) {
     ZineModel.findById(req.params.zine_id, function(err, zine) {
