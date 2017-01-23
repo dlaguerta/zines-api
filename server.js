@@ -23,7 +23,7 @@ var url = process.env.MONGO_URL;
 var db;
 
 //connect Mongodb with server at startup
-MongoClient.connect(process.env.MONGO_URL, (err, database) => {
+MongoClient.connect(url, (err, database) => {
   if (err) return console.log(err);
    db = database;
    app.listen(4500, () => {
