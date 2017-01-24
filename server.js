@@ -29,7 +29,7 @@ MongoClient.connect(url, (err, database) => {
   if (err) return console.log(err);
    db = database;
    app.listen(port, () => {
-     console.log('listening on port 8081');
+     console.log('listening on port' + port);
    });
 });
 
@@ -39,7 +39,7 @@ mongoose.connect(process.env.MONGO_URL);
 
 // set up headers for our server
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   next();
