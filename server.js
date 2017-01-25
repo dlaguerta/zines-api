@@ -187,28 +187,8 @@ router.route('/libraries/:library_id')
     });
   });
 
-// REGISTER OUR ROUTES -------------------------------
+
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
-//////old api route examples
-// app.get('/api/',function(req,res) {
-// 	res.send('Working');
-// });
-//
-//
-// app.get('/api/zines', function(req,res) {
-// 	ZineModel.find({},function(err,docs) {
-// 		if(err) {
-// 			res.send({error:err});
-// 		}
-// 		else {
-// 			res.send({zine:docs});
-// 		}
-// 	});
-// });
-
-// app.get('/api/zines/:id', function(req, res){
-//   Zine
-// });
 
