@@ -8,10 +8,6 @@ var port = process.env.PORT || 8081;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//connect to local db
-// mongoose.connect('mongodb://localhost/emberZines');
-// app.listen('4500');
-
 
 // //connect to hosted db
 const MongoClient = require('mongodb').MongoClient;
@@ -58,19 +54,11 @@ router.get('/', function(req, res) {
 
   router.route('/zines')
     .get(function(req,res){
-      // res.json({ querystring_title: req.query.title });
-    //   let queryOptions = {
-    //     pagelimit: req.query.limit || 10
-    // };
+
       if (req.query.tags === undefined) {
         req.query.tags = '';
       }
 
-      if (req.query.limit) {
-        console.log("limit is:  " + req.query.limit);
-        var limit = req.query.limit;
-        // queryOptions.offset = (options.page - 1) * queryOptions.limit
-      }
       ZineModel.find({ "tags": { "$regex": req.query.tags, "$options": "i",  }},function(err,docs) {
         if(err) {
           res.send({error:err});
@@ -88,10 +76,6 @@ router.get('/', function(req, res) {
 // route: /zines/:zine_id
 
 router.route('/zines/:zine_id')
-// Model.findOne().populate('author').exec(function (err, doc) {
-//   console.log(doc.author.name)         // Dr.Seuss
-//   console.log(doc.populated('author')) // '5144cf8050f071d979c118a7'
-// })
   .get(function(req, res) {
     ZineModel.findById(req.params.zine_id).populate('libraries').exec(function(err, docs) {
       if (err)
@@ -102,23 +86,12 @@ router.route('/zines/:zine_id')
     });
   })
 
-  //correct version
-  // .get(function(req, res) {
-  //   ZineModel.findById(req.params.zine_id, function(err, docs) {
-  //     if (err)
-  //     res.send(err);
-  //     console.log("Found zine");
-  //     res.json({zine: docs});
-  //   });
-  // })
-
   .put(function(req, res) {
     ZineModel.findById(req.params.zine_id, function(err, zine) {
       if (err)
         res.send(err);
       // if no err
       console.log("The zine you've found"+ zine);
-      // console.log(Object.keys(req.body.zine));
 
       var keys = Object.keys(req.body.zine);
       for (var i=0; i < keys.length; i++) {
@@ -130,14 +103,12 @@ router.route('/zines/:zine_id')
         if (err)
           res.send("error message" + err);
         res.json(zine);
-        console.log("***saved the zine from form***");
       });
     });
   });
 
 
   // on routes that end in /libraries
-  // ----------------------------------------------------
 router.route('/libraries')
 .get(function(req, res) {
   if (req.query.name === undefined) {
@@ -148,13 +119,11 @@ router.route('/libraries')
       res.send({error:err});
     }
     else {
-      console.log('Successful send of libraries from get route');
       res.send({library:docs});
     }
   });
 });
 
-//get a library by id
 router.route('/libraries/:library_id')
 
   .get(function(req, res) {
@@ -169,20 +138,15 @@ router.route('/libraries/:library_id')
     LibraryModel.findById(req.params.library_id, function(err, library) {
       if (err)
         res.send(err);
-      console.log("the library info you're changing:" + library);
-      console.log(Object.keys(req.body.library));
-      console.log(req.body.library.name);
       var keys = Object.keys(req.body.library);
       for (var i=0; i < keys.length; i++) {
         var key = keys[i];
         library[key] = req.body.library[key];
       }
-      console.log(library);
       library.save(function(err) {
         if (err)
           res.send(err);
         res.json(library);
-        console.log('*******saved the library********');
       });
     });
   });
