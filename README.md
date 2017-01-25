@@ -3,6 +3,8 @@ This is a RESTful API built with [NodeJS](https://nodejs.org/en/) and [Express](
 
 The Mongo database is seeded with zine metadata from the [Flywheel Zine Library](www.flywheelarts.org) and the [Queer Zine Archive Project](wwww.qzap.org). To learn more about their collections and efforts to catalog zines, please visit their respective websites.
 
+The API is currently deployed on Elastic Beanstalk.
+
 ## API Definition
 Every endpoint serves `json` data.
 
