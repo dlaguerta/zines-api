@@ -19,7 +19,6 @@ var zineSchema = new mongoose.Schema({
   see_also: 'string',
   photo: 'string',
   libraries: [{ type: Schema.Types.ObjectId, ref: 'library' }]
-  // library_ids: [{ type: Schema.Types.ObjectId, ref: 'library' }]
 
 });
 
