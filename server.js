@@ -45,21 +45,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-/////api routes using router
-
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
-
-// middleware to use for all requests
+var router = express.Router();
 router.use(function(req, res, next) {
-  // do logging
-  // console.log('router in use');
-  next(); // make sure we go to the next routes and don't stop here
+  next();
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
   res.json({ message: 'hooray! welcome to our api!' });
 });
@@ -88,13 +80,13 @@ router.get('/', function(req, res) {
           res.send({meta: {total:docs.length}, zine:docs});
         }
       // });
-    }).limit(50);
+    }).limit();
       // limits the number of results sent back immediately
     });
 
 
-// on routes that end in /zines/:zine_id
-// ----------------------------------------------------
+// route: /zines/:zine_id
+
 router.route('/zines/:zine_id')
 // Model.findOne().populate('author').exec(function (err, doc) {
 //   console.log(doc.author.name)         // Dr.Seuss
