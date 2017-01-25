@@ -68,7 +68,7 @@ router.get('/', function(req, res) {
           res.send({meta: {total:docs.length}, zine:docs});
         }
       // });
-    }).limit().sort({ photo: -1 });
+    }).limit(200).sort({ photo: -1, title: 1  });
       // limits the number of results sent back immediately
     });
 
